@@ -51,6 +51,6 @@ ENV S6_KEEP_ENV 1
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS 2
 ENV S6_FIX_ATTRS_HIDDEN 1
 
-WORKDIR /playbooks
+WORKDIR /ansible
 
 ENTRYPOINT ["/bin/bash", "-c", "/init"]
