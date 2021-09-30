@@ -1,0 +1,29 @@
+kind: pipeline
+type: docker
+name: default
+
+trigger:
+  branch:
+    - master
+  event:
+    - push
+    - cron
+
+steps:
+  - name: publish
+    image: plugins/docker
+    settings:
+      repo: cenk1cenk2/ansible-core
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      tags:
+        - latest
+      build_args:
+        - S6_VERSION=2.2.0.3
+        - PYTHON_VERSION=3.9.7
+        - ANSIBLE_VERSION=4.6.0
+
+image_pull_secrets:
+  - dockerconfigjson

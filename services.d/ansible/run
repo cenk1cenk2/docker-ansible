@@ -1,0 +1,9 @@
+#!/bin/bash
+
+source /scripts/logger.sh
+
+log_start "Ansible is waiting your commands through the ./cli interface."
+
+while true; do
+	sleep 6h
+done
