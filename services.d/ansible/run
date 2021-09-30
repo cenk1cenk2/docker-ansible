@@ -4,6 +4,13 @@ source /scripts/logger.sh
 
 log_start "Ansible is waiting your commands through the ./cli interface."
 
+if [ ! -d "/ansible" ]; then
+	log_error "/ansible directory does not exists. Please mount your ansible files there."
+	exit 127
+fi
+
+cd /ansible || exit 127
+
 while true; do
 	sleep 6h
 done

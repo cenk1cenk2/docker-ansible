@@ -7,6 +7,8 @@ if [ ! -d /ssh ]; then
 	exit 127
 fi
 
+log_debug "Copying SSH keys to user home."
+
 mkdir -p "$HOME/.ssh"
 rm -r "$HOME/.ssh/"
 cp -r /ssh/ "$HOME/.ssh/"

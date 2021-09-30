@@ -35,10 +35,6 @@ RUN apt-get update && apt-get install -y git openssh-client && \
   # clean up
   rm -rf /tmp/*
 
-# Create custom entrypoint supports environment variables
-COPY .docker/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
 # Copy scripts
 ADD https://gist.githubusercontent.com/cenk1cenk2/e03d8610534a9c78f755c1c1ed93a293/raw/logger.sh /scripts/logger.sh
 RUN chmod +x /scripts/*.sh
@@ -54,7 +50,6 @@ RUN chmod +x /etc/cont-init.d/*.sh && \
 ENV S6_KEEP_ENV 1
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS 2
 ENV S6_FIX_ATTRS_HIDDEN 1
-
 
 WORKDIR /playbooks
 
