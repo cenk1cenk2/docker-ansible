@@ -1,0 +1,7 @@
+#!/usr/bin/execlineb -S0
+
+source /scripts/logger.sh
+
+log_error "Service failed."
+
+s6-svscanctl -t /var/run/s6/services
