@@ -1,8 +1,12 @@
-FROM debian:bookworm-slim
+ARG NODEJS_VERSION=16-bullseye-slim
+ARG PYTHON_VERSION=3.10.0-slim-bullseye
 
-ARG S6_VERSION
-ARG PYTHON_VERSION
-ARG ANSIBLE_VERSION
+FROM node:${NODEJS_VERSION} as nodejs
+
+FROM python:${PYTHON_VERSION}
+
+ARG S6_VERSION=2.2.0.3
+ARG ANSIBLE_VERSION=4.8.0
 
 # Install tini
 WORKDIR /tmp
@@ -13,26 +17,26 @@ RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / && \
   # create directories
   mkdir -p /etc/services.d && mkdir -p /etc/cont-init.d && mkdir -p /s6-bin
 
+COPY --from=nodejs /usr/local/bin/ /usr/local/bin/
+COPY --from=nodejs /usr/local/lib/node_modules /usr/local/lib/node_modules
+COPY --from=nodejs /opt/ /opt/
+
 # Install missing basic system dependecies
-RUN apt-get update && apt-get install -y git openssh-client && \
-  # python build dependencies
-  apt-get install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev && \
-  # download and install python
-  curl -o /tmp/python.tar.xz https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tar.xz && \
-  tar -xf /tmp/python.tar.xz -C /tmp && \
-  cd /tmp/Python-${PYTHON_VERSION} && \
-  ./configure --enable-loadable-sqlite-extensions && \
-  make -j 8 && \
-  make install && \
-  # smoke test
+RUN apt-get update && apt-get install -y --no-install-recommends git openssh-client && \
+  # smoke test for git
+  git --version && \
+  # smoke test for python3
   python3 --version && \
-  # get pip
-  cd /tmp && \
-  curl https://bootstrap.pypa.io/get-pip.py | python3 &&\
-  python3 -m pip install --upgrade pip && \
+  pip3 --version && \
+  # smoke test for node binaries
+  node -v && \
+  npm -v && \
+  yarn -v && \
+  npx -v && \
   # install pip dependencies
-  pip3 install wheel setuptools setuptools-rust ansible==${ANSIBLE_VERSION} && \
+  pip3 install wheel setuptools setuptools-rust ansible==${ANSIBLE_VERSION} ansible-vault ansible-lint && \
   # clean up
+  apt-get clean && \
   rm -rf /tmp/*
 
 # Copy scripts
