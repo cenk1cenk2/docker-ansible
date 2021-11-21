@@ -22,7 +22,7 @@ COPY --from=nodejs /usr/local/lib/node_modules /usr/local/lib/node_modules
 COPY --from=nodejs /opt/ /opt/
 
 # Install missing basic system dependecies
-RUN apt-get update && apt-get install -y --no-install-recommends git openssh-client && \
+RUN apt-get update && apt-get install -y --no-install-recommends git openssh-client vim && \
   # smoke test for git
   git --version && \
   # smoke test for python3
@@ -34,6 +34,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends git openssh-cli
   yarn -v && \
   npx -v && \
   # install pip dependencies
+  pip3 install --upgrade pip && \
   pip3 install wheel setuptools setuptools-rust ansible==${ANSIBLE_VERSION} ansible-vault ansible-lint && \
   # clean up
   apt-get clean && \
