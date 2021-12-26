@@ -24,7 +24,7 @@ steps:
         - S6_VERSION=2.2.0.3
         - NODE_VERSION=16-bullseye-slim
         - PYTHON_VERSION=3.10.0-slim-bullseye
-        - ANSIBLE_VERSION=4.8.0
+        - ANSIBLE_VERSION=5.1.0
 
 image_pull_secrets:
   - dockerconfigjson
