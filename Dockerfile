@@ -1,12 +1,12 @@
-ARG NODEJS_VERSION=16-bullseye-slim
-ARG PYTHON_VERSION=3.10.0-slim-bullseye
+ARG NODEJS_VERSION=18-bullseye-slim
+ARG PYTHON_VERSION=3.10.6-slim-bullseye
 
 FROM node:${NODEJS_VERSION} as nodejs
 
 FROM python:${PYTHON_VERSION}
 
 ARG S6_VERSION=2.2.0.3
-ARG ANSIBLE_VERSION=4.8.0
+ARG ANSIBLE_VERSION=6.1.0
 
 # Install tini
 WORKDIR /tmp
