@@ -5,6 +5,7 @@ stages:
 
 variables:
   DOCKER_IMAGE_NAME: cenk1cenk2/ansible-core
+  IMAGE_TAGS: latest
   README_DESCRIPTION: |
     Run Ansible in Docker with NodeJS installed.
   BUILD_ARGS: S6_VERSION=2.2.0.3,NODE_VERSION=18-bullseye-slim,PYTHON_VERSION=3.10.6-slim-bullseye,ANSIBLE_VERSION=6.1.0
