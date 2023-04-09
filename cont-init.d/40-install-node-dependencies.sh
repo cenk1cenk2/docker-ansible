@@ -11,12 +11,15 @@ else
 		log_debug "node.js dependencies are already installed."
 	else
 		log_info "node.js dependencies will be installed."
-		if [ -f "yarn.lock" ]; then
+		if [ -f "pnpm-lock.yaml" ]; then
+			log_debug "\"pnpm-lock.yaml\" file found. node.js dependencies will be installed through pnpm."
+			pnpm install
+		elif [ -f "yarn.lock" ]; then
 			log_debug "\"yarn.lock\" file found. node.js dependencies will be installed through yarn."
 			yarn install
 		else
 			log_debug "node.js dependencies will be installed through npm."
-			npm i
+			npm install
 		fi
 	fi
 fi

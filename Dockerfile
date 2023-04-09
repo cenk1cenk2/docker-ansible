@@ -1,12 +1,12 @@
-ARG NODEJS_VERSION=18-bullseye-slim
-ARG PYTHON_VERSION=3.10.6-slim-bullseye
+ARG NODEJS_VERSION
+ARG PYTHON_VERSION
 
 FROM node:${NODEJS_VERSION} as nodejs
 
 FROM python:${PYTHON_VERSION}
 
-ARG S6_VERSION=2.2.0.3
-ARG ANSIBLE_VERSION=6.1.0
+ARG S6_VERSION
+ARG ANSIBLE_VERSION
 
 # Install tini
 WORKDIR /tmp
@@ -23,6 +23,7 @@ COPY --from=nodejs /opt/ /opt/
 
 # Install missing basic system dependecies
 RUN apt-get update && apt-get install -y --no-install-recommends git openssh-client vim && \
+  yarn global add pnpm && \
   # smoke test for git
   git --version && \
   # smoke test for python3
@@ -33,6 +34,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends git openssh-cli
   npm -v && \
   yarn -v && \
   npx -v && \
+  pnpm -v && \
   # install pip dependencies
   pip3 install --upgrade pip && \
   pip3 install wheel setuptools setuptools-rust ansible==${ANSIBLE_VERSION} ansible-vault ansible-lint && \

@@ -17,5 +17,6 @@ log_this "$(ansible-lint --version)" "${CYAN}ANSIBLE-LINT${RESET}" "DEBUG"
 log_this "$(node --version)" "${CYAN}NODE${RESET}" "LIFETIME"
 log_this "$(npm --version)" "${CYAN}NPM${RESET}" "DEBUG"
 log_this "$(yarn --version)" "${CYAN}YARN${RESET}" "DEBUG"
+log_this "$(pnpm --version)" "${CYAN}PNPM${RESET}" "DEBUG"
 
 log_divider
