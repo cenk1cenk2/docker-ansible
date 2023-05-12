@@ -8,9 +8,9 @@ variables:
   DOCKER_IMAGE_TAGS: latest
   DOCKER_IMAGE_BUILD_ARGS: |
     S6_VERSION=2.2.0.3,
-    NODE_VERSION=18-bullseye-slim,
+    NODE_VERSION=20-bullseye-slim,
     PYTHON_VERSION=3.11-slim-bullseye,
-    ANSIBLE_VERSION=7.4.0
+    ANSIBLE_VERSION=7.5.0
   README_DESCRIPTION: |
     Run Ansible in Docker with NodeJS installed.
 
