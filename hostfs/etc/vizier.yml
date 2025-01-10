@@ -1,0 +1,85 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/cenk1cenk2/docker-vizier/main/schema.json
+---
+steps:
+  - commands:
+      - name: preflight
+        command: /usr/bin/env bash
+        cwd: /
+        log:
+          lifetime: debug
+        script:
+          inline: |-
+            set -e
+
+            source /etc/vizier/scripts/logger.sh
+
+            if [ ! -d /ssh ]; then
+              log_error 'SSH directory of the user has to mounted to "/ssh" to have access to the servers.'
+              exit 127
+            fi
+
+            log_debug "Copying SSH keys to user home."
+
+            mkdir -p "$HOME/.ssh"
+            rm -r "$HOME/.ssh/"
+            cp -r /ssh/ "$HOME/.ssh/"
+            chmod -R 600 "$HOME/.ssh/"
+
+            if [ ! -f /git/.gitconfig ]; then
+              log_warn ".gitconfig file can be mounted to directory to use git inside the container: /git"
+            fi
+
+            log_debug "Copying gitconfig to user home."
+
+            cp /git/.gitconfig "$HOME/"
+
+            if [ ! -d "/ansible" ]; then
+              log_error "Ansible folder is not mounted at expected location: /ansible"
+
+              exit 127
+            fi
+
+            exit
+
+  - commands:
+      - name: versions
+        command: /usr/bin/env bash
+        cwd: /
+        log:
+          lifetime: debug
+        script:
+          inline: |
+            set -e
+
+            source /etc/vizier/scripts/logger.sh
+
+            SCRIPT_NAME="${YELLOW}docker-ansible${RESET}"
+
+            log_this "Starting up..." "${SCRIPT_NAME}" "LIFETIME" "bottom"
+
+            log_this "$(python3 --version)" "${CYAN}PYTHON${RESET}" "LIFETIME"
+            log_this "$(pip3 --version)" "${CYAN}PIP${RESET}" "LIFETIME"
+            log_this "$(ansible --version)" "${CYAN}ANSIBLE${RESET}" "LIFETIME"
+            log_this "$(ansible-vault --version)" "${CYAN}ANSIBLE-VAULT${RESET}" "LIFETIME"
+            log_this "$(ansible-lint --version)" "${CYAN}ANSIBLE-LINT${RESET}" "LIFETIME"
+
+            exit
+
+      - name: sleep
+        command: /usr/bin/env bash
+        cwd: /
+        log:
+          lifetime: debug
+        health:
+          ensureIsAlive: true
+        script:
+          inline: |
+            set -e
+
+            source /etc/vizier/scripts/logger.sh
+
+            log_start "Ansible is waiting your commands through the ./cli interface."
+
+            while true; do
+              sleep 12h
+            done
