@@ -1,9 +1,9 @@
 # syntax=docker/dockerfile-upstream:master-labs
 ARG PYTHON_VERSION
 
-FROM cenk1cenk2/vizier:latest AS vizier
+FROM docker.io/cenk1cenk2/vizier:latest AS vizier
 
-FROM python:${PYTHON_VERSION}
+FROM docker.io/library/python:${PYTHON_VERSION}
 
 ARG ANSIBLE_VERSION
 
