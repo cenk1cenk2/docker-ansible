@@ -5,7 +5,7 @@ stages:
   - post
 
 variables:
-  CONTAINER_IMAGE_NAME: cenk1cenk2/ansible-core
+  CONTAINER_IMAGE_NAME: docker.io/cenk1cenk2/ansible-core
   CONTAINER_IMAGE_BUILD_ARGS: |
     PYTHON_VERSION: 3.12-slim
     ANSIBLE_VERSION: 11.3.0
